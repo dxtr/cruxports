@@ -1,7 +1,8 @@
-# Description: libbsd provides useful functions commonly found on BSD systems
-# URL: http://libbsd.freedesktop.org/wiki
-# Packager: Ryan Mullen, rmmullen at gmail dot com
-# Maintainer: Ryan Mullen, rmmullen at gmail dot com
+# Description: 
+# URL: https://otr.cypherpunks.ca
+# Packager: Kim Lidström, kim at dxtr dot im
+# Maintainer: Kim Lidström, kim at dxtr dot im
+# Note: This Pkgfile was shamelessly stolen from Ryan Mullens libbsd
 
 name=libotr
 version=3.2.1
