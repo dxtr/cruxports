@@ -1,7 +1,8 @@
-# Description: libbsd provides useful functions commonly found on BSD systems
-# URL: http://libbsd.freedesktop.org/wiki
-# Packager: Ryan Mullen, rmmullen at gmail dot com
-# Maintainer: Ryan Mullen, rmmullen at gmail dot com
+# Description: clens is a convenience library to aid in porting code from OpenBSD to different operating systems
+# URL: https://opensource.conformal.com/wiki/clens
+# Packager: Kim Lidström, kim at dxtr dot im
+# Maintainer: Kim Lidström, kim at dxtr dot im
+# Note: This Pkgfile was shamelessly stolen from Ryan Mullens libbsd
 
 name=clens
 version=0.7.0
