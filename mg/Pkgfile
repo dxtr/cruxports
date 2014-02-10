@@ -1,7 +1,7 @@
-# Description: A network utility for downloading content from the Web
-# URL:         http://www.gnu.org/software/wget/
-# Maintainer:  CRUX System Team, core-ports at crux dot nu
-# Depends on:  openssl
+# Description: A portable version of Micro GNU/emacs maintained by the OpenBSD team
+# URL:         http://homepage.boetes.org/software/mg/
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+# Depends on:  libbsd
 
 name=mg
 version=20131118
