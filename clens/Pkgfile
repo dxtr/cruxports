@@ -1,0 +1,15 @@
+# Description: libbsd provides useful functions commonly found on BSD systems
+# URL: http://libbsd.freedesktop.org/wiki
+# Packager: Ryan Mullen, rmmullen at gmail dot com
+# Maintainer: Ryan Mullen, rmmullen at gmail dot com
+
+name=clens
+version=0.7.0
+release=1
+source=(https://opensource.conformal.com/snapshots/clens/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	make 
+	make LOCALBASE=/usr DESTDIR=$PKG install
+}

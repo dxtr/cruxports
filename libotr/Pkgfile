@@ -1,0 +1,15 @@
+# Description: libbsd provides useful functions commonly found on BSD systems
+# URL: http://libbsd.freedesktop.org/wiki
+# Packager: Ryan Mullen, rmmullen at gmail dot com
+# Maintainer: Ryan Mullen, rmmullen at gmail dot com
+
+name=libotr
+version=3.2.1
+release=1
+source=(https://otr.cypherpunks.ca/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+	./configure --prefix=/usr --mandir=/usr/man
+	make DESTDIR=$PKG install
+}

@@ -1,0 +1,16 @@
+# Description: A network utility for downloading content from the Web
+# URL:         http://www.gnu.org/software/wget/
+# Maintainer:  CRUX System Team, core-ports at crux dot nu
+# Depends on:  openssl
+
+name=mg
+version=20131118
+release=1
+source=(http://homepage.boetes.org/software/mg/mg-20131118.tar.gz)
+
+build() {
+    cd $name-$version
+
+    CFLAGS=-I/usr/include/clens make
+    make prefix=/usr DESTDIR=$PKG install 
+}
