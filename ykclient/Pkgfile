@@ -1,0 +1,16 @@
+# Description: Yubico C client library
+# URL:         http://opensource.yubico.com/yubico-c-client/
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+# Depends on:  libyubikey, curl
+
+name=ykclient
+version=2.12
+release=1
+source=(http://opensource.yubico.com/yubico-c-client/releases/$name-$version.tar.gz)
+
+build() {
+    cd $name-$version
+    ./configure --prefix=/usr --mandir=/usr/man
+    make check
+    make DESTDIR=$PKG install 
+}

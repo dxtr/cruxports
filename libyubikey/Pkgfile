@@ -1,0 +1,16 @@
+# Description: Yubico C client library
+# URL:         http://opensource.yubico.com/yubico-c/
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+# Depends on:  curl
+
+name=libyubikey
+version=1.11
+release=1
+source=(http://opensource.yubico.com/yubico-c/releases/$name-$version.tar.gz)
+
+build() {
+    cd $name-$version
+    ./configure --prefix=/usr --mandir=/usr/man
+    make check
+    make DESTDIR=$PKG install 
+}
