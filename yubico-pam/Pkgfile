@@ -1,0 +1,16 @@
+# Description: PAM module that provides an easy way to integrate the Yubikey into your existing user authentication infrastructure
+# URL:         http://opensource.yubico.com/yubico-pam/
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+# Depends on: autoconf, automake, linux-pam, git, libtool, libyubikey, ykclient
+
+name=pam_yubico
+version=2.14
+release=1
+source=(http://opensource.yubico.com/yubico-pam/releases/$name-$version.tar.gz)
+
+build() {
+    cd $name-$version
+    ./configure --prefix=/usr --mandir=/usr/man
+    make
+    make DESTDIR=$PKG install 
+}

@@ -1,0 +1,21 @@
+# Description: A fork of thttpd (tiny/turbo/throttling HTTP server)
+# URL:         http://opensource.dyc.edu/sthttpd
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+
+name=sthttpd
+version=2.26.4
+release=1
+source=(http://opensource.dyc.edu/pub/sthttpd/$name-$version.tar.gz thttpd)
+
+build() {
+    cd $name-$version
+
+    ./configure --prefix=/usr --mandir=/usr/man
+    make
+    make DESTDIR=$PKG install
+    install -d $PKG/var/www
+    install -d $PKG/etc/rc.d
+    install -m 755 $SRC/thttpd $PKG/etc/rc.d
+    mv $PKG/usr/local/www $PKG/var
+    chown -R www:www $PKG/var/www
+}

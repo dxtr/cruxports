@@ -1,0 +1,20 @@
+drwxr-xr-x	dxtr/users	etc/
+drwxr-xr-x	dxtr/users	etc/rc.d/
+-rwxr-xr-x	dxtr/users	etc/rc.d/haveged
+drwxr-xr-x	dxtr/users	usr/
+drwxr-xr-x	dxtr/users	usr/include/
+drwxr-xr-x	dxtr/users	usr/include/haveged/
+-rw-r--r--	dxtr/users	usr/include/haveged/havege.h
+drwxr-xr-x	dxtr/users	usr/lib/
+-rw-r--r--	dxtr/users	usr/lib/libhavege.a
+-rwxr-xr-x	dxtr/users	usr/lib/libhavege.la
+lrwxrwxrwx	dxtr/users	usr/lib/libhavege.so -> libhavege.so.1.1.0
+lrwxrwxrwx	dxtr/users	usr/lib/libhavege.so.1 -> libhavege.so.1.1.0
+-rwxr-xr-x	dxtr/users	usr/lib/libhavege.so.1.1.0
+drwxr-xr-x	dxtr/users	usr/man/
+drwxr-xr-x	dxtr/users	usr/man/man3/
+-rw-r--r--	dxtr/users	usr/man/man3/libhavege.3.gz
+drwxr-xr-x	dxtr/users	usr/man/man8/
+-rw-r--r--	dxtr/users	usr/man/man8/haveged.8.gz
+drwxr-xr-x	dxtr/users	usr/sbin/
+-rwxr-xr-x	dxtr/users	usr/sbin/haveged

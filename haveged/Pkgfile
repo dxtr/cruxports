@@ -1,0 +1,17 @@
+# Description: The haveged project is an attempt to provide an easy-to-use, unpredictable random number generator
+# URL:         http://www.issihosts.com/haveged/
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+
+name=haveged
+version=1.9.0
+release=1
+source=(http://www.issihosts.com/haveged/$name-$version.tar.gz haveged)
+
+build() {
+    cd $name-$version
+    ./configure --prefix=/usr --mandir=/usr/man
+    make
+    make install DESTDIR=$PKG
+    install -d $PKG/etc/rc.d
+    install -m 755 $SRC/haveged $PKG/etc/rc.d
+}

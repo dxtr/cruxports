@@ -1,0 +1,16 @@
+# Description: YubiKey Personalization cross-platform library and tool
+# URL:         http://opensource.yubico.com/yubikey-personalization/
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+# Depends on:  libyubikey, pkg-config, json-c, libusb
+
+name=yubikey-personalization
+version=1.15.0
+release=1
+source=(http://opensource.yubico.com/yubikey-personalization/releases/ykpers-$version.tar.gz)
+
+build() {
+    cd ykpers-$version
+    ./configure --prefix=/usr --mandir=/usr/man
+    make check
+    make DESTDIR=$PKG install 
+}
