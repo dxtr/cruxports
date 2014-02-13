@@ -1,0 +1,16 @@
+# Description: XML Security Library provides support for XML Digital Signature and XML Encryption
+# URL:         http://www.aleksey.com/xmlsec/index.html
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+# Depends on:  libxslt, libxml2
+
+name=xmlsec
+version=1.2.19
+release=1
+source=(http://www.aleksey.com/xmlsec/download/xmlsec1-$version.tar.gz)
+
+build() {
+    cd xmlsec1-$version
+    ./configure --prefix=/usr --mandir=/usr/man
+    make
+    make DESTDIR=$PKG install 
+}
