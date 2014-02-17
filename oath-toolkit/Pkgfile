@@ -12,10 +12,6 @@ source=(http://download.savannah.gnu.org/releases/oath-toolkit/$name-$version.ta
 build() {
     cd $name-$version
     ./configure --prefix=/usr --mandir=/usr/man --with-pam-dir=/lib/security
-    #cd pam_oath
-    #./configure --prefix=/usr --mandir=/usr/man --with-pam-dir=/lib/security
-    #cd ..
     make
     make DESTDIR=$PKG install 
-#    mv $PKG/usr/lib/security $PKG/lib/security
 }
