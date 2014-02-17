@@ -3,13 +3,13 @@
 # Maintainer:  Kim Lidström, kim at dxtr dot im
 # Depends on: autoconf, automake, linux-pam, git, libtool, libyubikey, ykclient
 
-name=pam_yubico
+name=yubico-pam
 version=2.14
 release=1
-source=(http://opensource.yubico.com/yubico-pam/releases/$name-$version.tar.gz)
+source=(http://opensource.yubico.com/yubico-pam/releases/pam_yubico-$version.tar.gz)
 
 build() {
-    cd $name-$version
+    cd pam_yubico-$version
     ./configure --prefix=/usr --mandir=/usr/man --with-pam-dir=/lib/security
     make
     make DESTDIR=$PKG install 

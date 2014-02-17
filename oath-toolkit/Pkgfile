@@ -1,0 +1,21 @@
+# Description: The OATH Toolkit provide components for building one-time password authentication systems
+# Description: PAM module that provides an easy way to integrate the Yubikey into your existing user authentication infrastructure
+# URL:         http://www.nongnu.org/oath-toolkit/index.html
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+# Depends on:  linux-pam, xmlsec
+
+name=oath-toolkit
+version=2.4.0
+release=1
+source=(http://download.savannah.gnu.org/releases/oath-toolkit/$name-$version.tar.gz)
+
+build() {
+    cd $name-$version
+    ./configure --prefix=/usr --mandir=/usr/man --with-pam-dir=/lib/security
+    #cd pam_oath
+    #./configure --prefix=/usr --mandir=/usr/man --with-pam-dir=/lib/security
+    #cd ..
+    make
+    make DESTDIR=$PKG install 
+#    mv $PKG/usr/lib/security $PKG/lib/security
+}
