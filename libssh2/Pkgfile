@@ -1,0 +1,15 @@
+# Description: C library implementing the SSH2 protocol
+# URL:         http://www.libssh2.org/
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+
+name=libssh2
+version=1.4.3
+release=1
+source=(http://www.libssh2.org/download/$name-$version.tar.gz)
+
+build() {
+    cd $name-$version
+    ./configure --prefix=/usr --mandir=/usr/man
+    make
+    make install DESTDIR=$PKG
+}
