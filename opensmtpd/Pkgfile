@@ -1,0 +1,19 @@
+# Description: A fork of thttpd (tiny/turbo/throttling HTTP server)
+# URL:         http://www.opensmtpd.org
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+# Depends on:
+
+name=opensmtpd
+version=201402071603p1
+release=1
+source=(http://www.opensmtpd.org/archives/$name-$version.tar.gz smtpd.rc)
+
+build() {
+    cd $name-$version
+
+    ./configure --prefix=/usr --mandir=/usr/man --sysconfdir=/etc
+    make
+    make DESTDIR=$PKG install
+    install -d $PKG/etc/rc.d
+    install -m 755 $SRC/smtpd.rc $PKG/etc/rc.d/smtpd
+}

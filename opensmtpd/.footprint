@@ -1,0 +1,41 @@
+drwxr-xr-x	root/root	etc/
+drwxr-xr-x	root/root	etc/rc.d/
+-rwxr-xr-x	root/root	etc/rc.d/smtpd
+-rw-r--r--	root/root	etc/smtpd.conf
+drwxr-xr-x	root/root	usr/
+drwxr-xr-x	root/root	usr/bin/
+lrwxrwxrwx	root/root	usr/bin/sendmail -> /usr/sbin/smtpctl
+drwxr-xr-x	root/root	usr/libexec/
+drwxr-xr-x	root/root	usr/libexec/opensmtpd/
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/encrypt
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/filter-dnsbl
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/filter-monkey
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/filter-stub
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/filter-trace
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/filter-void
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/mail.local
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/queue-null
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/queue-ram
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/queue-stub
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/scheduler-ram
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/scheduler-stub
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/table-passwd
+-rwxr-xr-x	root/root	usr/libexec/opensmtpd/table-stub
+drwxr-xr-x	root/root	usr/man/
+drwxr-xr-x	root/root	usr/man/man5/
+-rw-r--r--	root/root	usr/man/man5/aliases.5.gz
+-rw-r--r--	root/root	usr/man/man5/forward.5.gz
+-rw-r--r--	root/root	usr/man/man5/smtpd.conf.5.gz
+-rw-r--r--	root/root	usr/man/man5/table.5.gz
+drwxr-xr-x	root/root	usr/man/man8/
+-rw-r--r--	root/root	usr/man/man8/makemap.8.gz
+-rw-r--r--	root/root	usr/man/man8/newaliases.8.gz
+-rw-r--r--	root/root	usr/man/man8/sendmail.8.gz
+-rw-r--r--	root/root	usr/man/man8/smtpctl.8.gz
+-rw-r--r--	root/root	usr/man/man8/smtpd.8.gz
+drwxr-xr-x	root/root	usr/sbin/
+lrwxrwxrwx	root/root	usr/sbin/mailq -> /usr/sbin/smtpctl
+-rwxr-xr-x	root/root	usr/sbin/makemap
+lrwxrwxrwx	root/root	usr/sbin/newaliases -> /usr/sbin/makemap
+-rwxr-xr-x	root/root	usr/sbin/smtpctl
+-rwxr-xr-x	root/root	usr/sbin/smtpd

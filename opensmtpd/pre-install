@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/usr/sbin/useradd -M -r -U -d /var/empty -s /bin/false _smtpd
