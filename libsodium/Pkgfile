@@ -1,0 +1,18 @@
+# Description: Portable, cross-compilable, installable, packageable fork of NaCl
+# URL:         https://github.com/jedisct1/libsodium
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+# Depends on: libtool, autoconf, automake
+
+name=libsodium
+version=0.4.5
+release=1
+source=(https://download.libsodium.org/libsodium/releases/libsodium-$version.tar.gz)
+
+build() {
+    cd $name-$version
+
+    ./configure --prefix=/usr --mandir=/usr/man --sysconfdir=/etc
+    make
+    make check
+    make DESTDIR=$PKG install
+}
