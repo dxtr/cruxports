@@ -1,0 +1,29 @@
+# Description: DUMA (Detect Unintended Memory Access) is a multi-platform memory debugging library
+# URL:         http://duma.sourceforge.net/
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+# Depends on: libtool, autoconf, automake
+
+name=duma
+version=2.5.15
+release=1
+_filename=${name}_$(echo $version | sed -e 's/\./_/g')
+source=(http://sourceforge.net/projects/$name/files/$name/$version/$_filename.tar.gz)
+
+build() {
+    cd $_filename
+
+_cflags="-g -O0 -Wall -Wextra"
+_prefix=$PKG/usr
+_sysconfdir=$PKG/etc
+_libdir=$PKG/usr/lib
+_includedir=$PKG/usr/include
+_exec_prefix=$PKG/usr
+_doc_install_dir=$PKG/usr/share/doc/duma
+_makeflags="OS=linux prefix=$_prefix sysconfdir=$_sysconfdir libdir=$_libdir \
+includedir=$_includedir exec_prefix=_exec_prefix \
+DOC_INSTALL_DIR=$_doc_install_dir"
+    make CFLAGS="$_cflags -I$(pwd)" CPPFLAGS="$_cflags -I$(pwd)" reconfig
+    make CFLAGS="$_cflags -I$(pwd)" CPPFLAGS="$_cflags -I$(pwd)"
+    make CFLAGS="$_cflags -I$(pwd)" CPPFLAGS="$_cflags -I$(pwd)" $_makeflags install
+    install -m644 duma_hlp.h $PKG/usr/include
+}

@@ -1,0 +1,21 @@
+# Description:  An advanced IRC bouncer
+# URL:          http://znc.in/
+# Maintainer:   Kim Lidström
+# Packager:     Kim Lidström, kim at dxtr dot im
+#
+# Depends on:
+
+name=znc
+version=1.2
+release=1
+source=(http://znc.in/releases/$name-$version.tar.gz)
+
+build() {
+	cd $name-$version
+
+    ./configure --prefix=/usr --mandir=/usr/man --enable-perl
+    make
+    make DESTDIR=$PKG install
+
+    chown -R root:root $PKG
+}
