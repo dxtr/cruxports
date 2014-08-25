@@ -1,0 +1,20 @@
+# Description: A fast compressor/decompressor
+# URL: https://github.com/google/snappy
+# Maintainer:  Kim Lidström, kim at dxtr dot im
+# Depends on: autoconf automake pkg-config libtool
+
+name=snappy
+version=$(date +%Y%m%d)
+release=1
+source=()
+_git="https://github.com/google/snappy.git"
+
+build() {
+  git clone $_git $name
+  cd $name
+  ./autogen.sh
+  ./configure --prefix=/usr --mandir=/usr/man --sysconfdir=/etc --disable-dependency-tracking
+  make
+  make DESTDIR=$PKG install
+}
+
