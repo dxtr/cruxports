@@ -1,0 +1,49 @@
+# Description:  SBCL
+# URL:          http://www.sbcl.org
+# Maintainer:   dxtr
+# Depends on:   clisp texinfo
+
+name=sbcl
+version=1.3.8
+release=1
+source=(http://prdownloads.sourceforge.net/${name}/${name}-${version}-source.tar.bz2)
+
+build() {
+    cd ${name}-${version}
+    export CFLAGS+=" -D_GNU_SOURCE -DSBCL_HOME=/usr/lib/sbcl"
+    export GNUMAKE="make"
+    export LINKFLAGS="$LDFLAGS"
+    unset LDFLAGS
+    unset MAKEFLAGS
+
+    cat >customize-target-features.lisp <<EOF
+(lambda (features)
+  (flet ((enable (x) (pushnew x features))
+         (disable (x) (setf features (remove x features))))
+  (enable :sb-thread)
+  (enable :sb-core-compression)
+  (disable :largefile)))
+EOF
+
+  sh make.sh clisp --prefix=/usr
+  make -C doc/manual info
+
+  SBCL_HOME="" INSTALL_ROOT="${PKG}/usr" sh install.sh
+  #src/runtime/sbcl --core output/sbcl.core --script "${SRC}/arch-fixes.lisp"
+  #mv sbcl-new.core "${pkgdir}/usr/lib/sbcl/sbcl.core"
+
+  # sources
+  mkdir -p "$PKG/usr/share/sbcl-source"
+  cp -R -t "$PKG/usr/share/sbcl-source" "$SRC/$name-$version/"{src,contrib}
+
+  # license
+  #install -D -m644 "$SRC/$pkgname-$pkgver/COPYING" \
+  #                 "$pkgdir/usr/share/licenses/$pkgname/license.txt"
+
+  # drop unwanted files
+  find "$PKG" \( -name Makefile -o -name .cvsignore \) -delete
+  find "$PKG/usr/share/sbcl-source" -type f \
+    \( -name \*.fasl -o -name \*.o -o -name \*.log -o -name \*.so -o -name a.out \) -delete
+
+  rm "$PKG/usr/share/sbcl-source/src/runtime/sbcl"{,.nm}
+}

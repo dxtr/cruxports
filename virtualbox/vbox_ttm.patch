@@ -1,0 +1,11 @@
+--- src/VBox/Additions/linux/drm/vbox_ttm.c.orig	2016-08-01 19:25:30.107906047 +0200
++++ src/VBox/Additions/linux/drm/vbox_ttm.c	2016-08-01 19:25:55.274573905 +0200
+@@ -221,7 +221,7 @@ static int vbox_bo_move(struct ttm_buffe
+                struct ttm_mem_reg *new_mem)
+ {
+     int r;
+-    r = ttm_bo_move_memcpy(bo, evict, no_wait_gpu, new_mem);
++    r = ttm_bo_move_memcpy(bo, evict, interruptible, no_wait_gpu, new_mem);
+     return r;
+ }
+ 

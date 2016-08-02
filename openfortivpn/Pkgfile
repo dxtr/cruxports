@@ -1,0 +1,28 @@
+# Description: Client for PPP+SSL VPN tunnel services
+# URL:         https://github.com/adrienverge/openfortivpn
+# Maintainer:  dxtr
+# Depends on:  git ppp gcc automake autoconf openssl
+
+name=openfortivpn
+version=git
+release=1
+source=()
+
+build() {
+	cd $PKGMK_SOURCE_DIR
+
+    if [ ! -d $name ]; then
+        git clone https://github.com/adrienverge/openfortivpn $name
+        cd $name
+    else
+        cd $name
+        git pull
+    fi
+
+    aclocal
+    autoconf
+    automake --add-missing
+    ./configure --prefix=/usr --sysconfdir=/etc
+    make
+    make DESTDIR="$PKG" install
+}

@@ -1,0 +1,31 @@
+# Description: XCB utility functions for the X resource manager
+# URL:         https://github.com/Airblader/xcb-util-xrm
+# Maintainer:  dxtr
+# Depends on:  git 
+
+name=xorg-xcb-util-xrm
+version=git
+release=1
+source=()
+branch=master
+
+build() {
+	cd $PKGMK_SOURCE_DIR
+
+	if [ -d $name ]; then
+                cd $name
+		git fetch -q
+                git reset --hard origin/$branch
+                git submodule update
+	else
+		git clone https://github.com/Airblader/xcb-util-xrm -b $branch $name
+		cd $name
+                git submodule update --init
+	fi
+
+        autoreconf -i
+        ./configure --prefix=/usr
+	make
+	#make DESTDIR=$PKG PREFIX=/usr install
+        make DESTDIR=$PKG install
+}

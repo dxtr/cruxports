@@ -1,0 +1,23 @@
+# Description: A console user interface library for python.
+# URL: http://urwid.org/
+# Maintainer: Danny Rawlins, crux at romster dot me
+# Packager: Daryl Fonseca-Holt, wyatt at prairieturtle dot ca
+# Depends on: git setuptools
+
+name=urwid
+version=1.0.3
+release=1
+
+source=()
+
+build() {
+        if [ ! -d $name-$version ]; then
+            git clone https://github.com/urwid/urwid $name-$version
+            cd $name-$version
+            git checkout tags/release-1.0.3
+        else
+	    cd $name-$version
+        fi
+	/usr/bin/python setup.py build
+	/usr/bin/python setup.py install --prefix=/usr --root=$PKG --optimize=1
+}

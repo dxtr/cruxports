@@ -1,0 +1,19 @@
+# Description: Monospace font for pretty code listings and for the terminal
+# URL:         https://www.google.com/fonts/specimen/Inconsolata
+# Maintainer:  6c37 Team, https://github.com/6c37/crux-ports/issues
+# Depends On:  fontconfig xorg-font-util
+
+name=ttf-inconsolata
+version=20151221.480630d
+release=1
+#license=('custom:OFL')
+source=(https://sources.archlinux.org/other/community/ttf-inconsolata/ttf-inconsolata-480630d.tar.bz2
+        75-ttf-inconsolata.conf)
+    
+build() {
+  install -d $PKG/usr/share/fonts/X11/TTF
+  install -Dm644 $SRC/inconsolata/*.ttf $PKG/usr/share/fonts/X11/TTF
+  #install -Dm644 $SRC/inconsolata/OFL.txt $PKG/usr/share/licenses/ttf-inconsolata/OFL.txt
+  install -Dm644 $SRC/75-ttf-inconsolata.conf $PKG/etc/fonts/conf.avail/75-ttf-inconsolata.conf
+}
+

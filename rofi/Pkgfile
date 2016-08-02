@@ -1,0 +1,31 @@
+# Description: A window switcher, run dialog and dmenu replacement
+# URL:         https://davedavenport.github.io/rofi/
+# Maintainer:  dxtr
+# Depends on:  git startup-notification xorg-xcb-util-wm xorg-xcb-util-xrm libxkbcommon
+
+name=rofi
+version=git
+release=1
+source=()
+branch=master
+
+build() {
+	cd $PKGMK_SOURCE_DIR
+
+	if [ -d $name ]; then
+                cd $name
+		git fetch -q
+                git reset --hard origin/$branch
+                git submodule update
+	else
+		git clone https://github.com/DaveDavenport/rofi -b $branch $name
+		cd $name
+                git submodule update --init
+	fi
+
+        autoreconf -i
+        ./configure --prefix=/usr
+	make
+	#make DESTDIR=$PKG PREFIX=/usr install
+        make DESTDIR=$PKG install
+}
