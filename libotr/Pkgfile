@@ -1,11 +1,10 @@
 # Description: 
 # URL: https://otr.cypherpunks.ca
-# Packager: Kim Lidstr√∂m, kim at dxtr dot im
-# Maintainer: Kim Lidstr√∂m, kim at dxtr dot im
-# Note: This Pkgfile was shamelessly stolen from Ryan Mullens libbsd
+# Packager: Kim Lidstro∂m, kim at dxtr dot im
+# Maintainer: Kim Lidstro∂m, kim at dxtr dot im
 
 name=libotr
-version=4.0.0
+version=4.1.1
 release=1
 source=(https://otr.cypherpunks.ca/$name-$version.tar.gz)
 
