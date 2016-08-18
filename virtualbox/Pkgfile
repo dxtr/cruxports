@@ -1,14 +1,13 @@
 # Description: VirtualBox is a general-purpose full virtualizer for x86 hardware.
 # URL: http://www.virtualbox.org/
-# Maintainer: Jose V Beneyto, sepen at crux dot nu
-# Packager: Jose V Beneyto, sepen at crux dot nu
-# Depends on: bin86 dev86 libsdl libidl qt4 xerces-c iasl xorg-libxmu libcap makeself cdrkit glu libvpx
+# Maintainer: dxtr
+# Depends on: bin86 dev86 libsdl libidl qt4 xerces-c iasl xorg-libxmu libcap makeself cdrkit glu libvpx python
 
 name=virtualbox
-version=5.1.2
+version=5.1.4
 release=1
 source=(http://download.virtualbox.org/$name/$version/VirtualBox-$version.tar.bz2 \
-        $name 60-vboxdrv.rules $name.desktop vbox_ttm.patch)
+        $name 60-vboxdrv.rules $name.desktop vbox_ttm.patch LocalConfig.kmk 003-ogl-include-path.patch 006-rdesktop-vrdp-keymap-path.patch)
 
 build() {
   # environment value
@@ -17,23 +16,30 @@ build() {
   cd VirtualBox-$version
 
   sed -i Config.kmk \
+      -e "s|VBOX_WITH_PAM = 1|VBOX_WITH_PAM =|g"
       -e "s|VBOX_WITH_WARNINGS_AS_ERRORS = 1|VBOX_WITH_WARNINGS_AS_ERRORS =|g" \
-      -e "s|VBOX_WITH_PAM = 1|VBOX_WITH_PAM =|g" \
+      -e "s|VBOX_WITH_AUDIO_PULSE = 1|VBOX_WITH_AUDIO_PULSE =|g" \
       -e "s|VBOX_WITH_QTGUI_V5 = 1|VBOX_WITH_QTGUI_V5 =|g"
 
-  sed -i src/VBox/Devices/PC/vbox.dsl \
-      -e 's|Name (_CID, "smc-napa")|Name (_CID, "smcnapa")|'
+#  sed -i src/VBox/Devices/PC/vbox.dsl \
+#      -e 's|Name (_CID, "smc-napa")|Name (_CID, "smcnapa")|'
 
   patch -p0 -i $SRC/vbox_ttm.patch
+  patch -p1 -i $SRC/003-ogl-include-path.patch
+  patch -p1 -i $SRC/006-rdesktop-vrdp-keymap-path.patch
+
+  cp $SRC/LocalConfig.kmk .
+  echo "VBOX_GCC_OPTS=${CXXFLAGS}" >> LocalConfig.kmk
+  sed -i 's/^check_gcc$/#check_gcc/' configure
 
   # compile
-  ./configure --enable-qt4 \
-              --disable-hardening \
+  # --disable-java
+  ./configure --enable-hardening \
+              --enable-qt4 \
               --ose \
+              --disable-docs \
               --disable-pulse \
-              --disable-python \
-              --disable-java \
-              --disable-docs
+              --with-makeself=/bin/echo
 
   source ./env.sh
   kmk all
@@ -43,22 +49,62 @@ build() {
 
   make $KARG
 
-  # install kernel modules
-  install -d $PKG/lib/modules/$(uname -r)/kernel/drivers/misc
-  install -m 0644 *.ko $PKG/lib/modules/$(uname -r)/kernel/drivers/misc
+  cd ..
+  #cd "${SRC}/VirtualBox-${version}/out/linux.amd64/release/bin"
+  install -dm755 $PKG/usr/{bin,share/$name,share/pixmaps}
+  install -dm755 $PKG/usr/share/$name/{rdesktop-vrdp-keymaps,nls}
+  install -dm755 $PKG/usr/lib/$name/{ExtensionPacks,components}
+  install -d $PKG/lib/modules/$(uname -r)/kernel/drivers/extra
+  install -dm755 "$PKG/etc/vbox"
 
-  # remove superfluous files
-  rm -rf $SRC/VirtualBox-$version/out/linux.amd64/release/bin/{sdk/samples,testcase,nls*}
-  find $SRC/VirtualBox-$version/out/linux.amd64/release/bin -type f -name 'tst*' -exec rm -rf {} \;
-  find $PKG/usr/share/virtualbox/bin/src/ -iname '.*.o.*' -delete
+  # Install binaries
+  install -m755 VBox.sh "$PKG/usr/bin/VBox"
+  for i in VBoxHeadless VBoxManage VBoxSDL VirtualBox VBoxBalloonCtrl; do
+    ln -sf VBox "$PKG/usr/bin/$i"
+    ln -sf VBox "$PKG/usr/bin/${i,,}"
+  done
+  install -m755 VBoxTunctl "$PKG/usr/bin"
+  install -m755 rdesktop-vrdp "$PKG/usr/bin"
+
+  # libraries
+  install -m755 *.so "$PKG/usr/lib/virtualbox"
+  install -m644 *.rc *.r0 VBoxEFI*.fd "$PKG/usr/lib/virtualbox"
+  ## setuid root binaries
+  install -m4755 VBoxSDL VirtualBox VBoxHeadless VBoxNetDHCP VBoxNetAdpCtl VBoxNetNAT -t "$PKG/usr/lib/virtualbox"
+  ## other binaries
+  install -m755 VBoxManage VBoxSVC VBoxExtPackHelperApp VBoxXPCOMIPCD VBoxTestOGL VBoxBalloonCtrl -t "$PKG/usr/lib/virtualbox"
+
+  # components
+  install -m755 components/* -t "$PKG/usr/lib/virtualbox/components"
+
+  # languages
+  install -m755 nls/*.qm -t "$PKG/usr/share/virtualbox/nls"
+
+  # rdesktop keymaps
+  install -m644 rdesktop-vrdp-keymaps/* "$PKG/usr/share/virtualbox/rdesktop-vrdp-keymaps"
+
+  # useless scripts
+  install -m755 VBoxCreateUSBNode.sh VBoxSysInfo.sh -t "$PKG/usr/share/virtualbox"
+
+  # icons
+  install -Dm644 VBox.png "$PKG/usr/share/pixmaps/VBox.png"
+  pushd icons >/dev/null
+    for i in *; do
+      install -d "$PKG/usr/share/icons/hicolor/$i/mimetypes"
+      cp $i/* "$PKG/usr/share/icons/hicolor/$i/mimetypes"
+    done
+  popd >/dev/null
+
+  #desktop
+  install -Dm644 virtualbox.desktop "$PKG/usr/share/applications/virtualbox.desktop"
+  install -Dm644 virtualbox.xml "$PKG/usr/share/mime/packages/virtualbox.xml"
+
+  #install configuration
+  echo 'INSTALL_DIR=/usr/lib/virtualbox' > "$PKG/etc/vbox/vbox.cfg"
+
+  # install kernel modules
+  install -m 0644 src/*.ko $PKG/lib/modules/$(uname -r)/kernel/drivers/extra
 
   # do the rest
   install -D -m 0644 $SRC/60-vboxdrv.rules $PKG/etc/udev/rules.d/60-vboxdrv.rules
-  install -d $PKG/usr/{bin,share/$name,share/pixmaps}
-  install -m 0755 $SRC/$name $PKG/usr/bin/$name
-  mv $SRC/VirtualBox-$version/out/linux.amd64/release/{bin,lib} $PKG/usr/share/$name
-  chown root:vboxusers $PKG/usr/share/$name/bin/VirtualBox
-  install -D -m 0644 $SRC/$name.desktop $PKG/usr/share/applications/$name.desktop
-  mv $PKG/usr/share/$name/bin/VBox.png $PKG/usr/share/pixmaps/$name.png
-  rm $PKG/usr/share/$name/bin/{VBox.sh,SUP*nstall}
 }

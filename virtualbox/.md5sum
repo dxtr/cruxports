@@ -1,5 +1,8 @@
+f11dcead216e35e88dad5c95412c6729  003-ogl-include-path.patch
+d82a6f19be739341ed7f1cf4ee8070ca  006-rdesktop-vrdp-keymap-path.patch
 2a2724088f65d0a373a689209bb4d938  60-vboxdrv.rules
-aff1647170dd92914cddfbd0254b9773  VirtualBox-5.1.2.tar.bz2
+1af9ebb9a81b80832523d7c9e522c167  LocalConfig.kmk
+e25a6a1f3c113c373dc0433f9c2526f3  VirtualBox-5.1.4.tar.bz2
 3f777d5d0a3fcd319c7cbe7ba5993f3f  vbox_ttm.patch
 7d871e19b96ece653ddce4cc83adbe66  virtualbox
 362e923d42651f370561b0f9095ea7a5  virtualbox.desktop
